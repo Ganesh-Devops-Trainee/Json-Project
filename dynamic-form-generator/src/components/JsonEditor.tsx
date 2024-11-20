@@ -35,12 +35,12 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ json, onChange }) => {
         placeholder="Paste your JSON schema here..."
       />
       {error && <p className="text-red-500 mt-2">{error}</p>}
-      <button
+      {/* <button
         onClick={handleCopy}
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
       >
         Copy JSON
-      </button>
+      </button> */}
       <ReactJson src={json ? JSON.parse(json) : {}} theme="monokai" />
     </div>
   );
