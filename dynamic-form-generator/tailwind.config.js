@@ -1,5 +1,8 @@
 module.exports = {
-  content: ["./src//*.{js,jsx,ts,tsx}"],
+  content: [
+    "./src/**/*.{html,js,ts,jsx,tsx}",
+  ],
+  darkMode: 'class', // Enable dark mode with the "class" strategy
   theme: {
     extend: {},
   },
