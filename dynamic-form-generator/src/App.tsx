@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import JsonEditor from "./components/JsonEditor";
 import FormPreview from "./components/FormPreview";
+import JsonEditor from "./components/JsonEditor";
 
 const App: React.FC = () => {
   const [jsonSchema, setJsonSchema] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className={h-screen ${darkMode ? "dark" : ""}}>
+    <div className={`h-screen ${darkMode ? "dark" : ""}`}>
       <div className="flex items-center justify-between p-4 bg-gray-200 dark:bg-gray-800">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dynamic Form Generator</h1>
         <button
