@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import FormPreview from "./components/FormPreview";
 import JsonEditor from "./components/JsonEditor";
-
 const App: React.FC = () => {
   const [json, setJson] = useState<string>("");
 
