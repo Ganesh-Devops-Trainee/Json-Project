@@ -1,55 +1,62 @@
-import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { FormSchema } from "../types/schema";
+import React, { useState } from "react";
+import downloadJson from "../utils/downloadJson";
 
-const FormPreview = <{ json: string }> = ({ json }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+interface FormPreviewProps {
+  json: string;
+}
 
-  const parsedSchema: FormSchema | null = (() => {
-    try {
-      return JSON.parse(json);
-    } catch {
-      return null;
-    }
-  })();
+const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
+  const [formData, setFormData] = useState<any>({});
+  const [submitted, setSubmitted] = useState(false);
 
-  const onSubmit: SubmitHandler<any> = (data) => {
-    console.log("Form Submitted:", data);
-    alert("Form submitted successfully!");
+  let schema;
+
+  try {
+    schema = JSON.parse(json);
+  } catch {
+    return <p className="text-red-500">Invalid JSON</p>;
+  }
+
+  const handleChange = (id: string, value: any) => {
+    setFormData((prev: any) => ({ ...prev, [id]: value }));
   };
 
-  if (!parsedSchema) return <p>Enter valid JSON to preview the form.</p>;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form Submitted:", formData);
+    setSubmitted(true);
+    downloadJson(formData, "form-submission");
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <h2 className="text-xl">{parsedSchema.formTitle}</h2>
-      <p>{parsedSchema.formDescription}</p>
-      {parsedSchema.fields.map((field) => (
-        <div key={field.id}>
-          <label className="block mb-1 font-bold">{field.label}</label>
-          {field.type === "text" && (
-            <input
-              {...register(field.id, { required: field.required })}
-              className="w-full p-2 border rounded"
-              placeholder={field.placeholder}
-            />
-          )}
-          {field.type === "email" && (
-            <input
-              {...register(field.id, { required: field.required })}
-              className="w-full p-2 border rounded"
-              placeholder={field.placeholder}
-            />
-          )}
-          {errors[field.id] && (
-            <p className="text-red-600 mt-1">This field is required.</p>
-          )}
-        </div>
-      ))}
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-        Submit
-      </button>
-    </form>
+    <div>
+      <h2 className="text-xl font-semibold mb-4">{schema?.formTitle || "Form"}</h2>
+      <p className="mb-4">{schema?.formDescription}</p>
+      <form onSubmit={handleSubmit}>
+        {schema?.fields?.map((field: any) => (
+          <div key={field.id} className="mb-4">
+            <label className="block mb-2">{field.label}</label>
+            {field.type === "text" && (
+              <input
+                type="text"
+                placeholder={field.placeholder}
+                className="w-full p-2 border rounded"
+                required={field.required}
+                onChange={(e) => handleChange(field.id, e.target.value)}
+              />
+            )}
+            {/* Add other field types */}
+          </div>
+        ))}
+        <button
+          type="submit"
+          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
+        >
+          Submit
+        </button>
+      </form>
+      {submitted && <p className="mt-4 text-green-500">Form Submitted Successfully!</p>}
+    </div>
   );
 };
 

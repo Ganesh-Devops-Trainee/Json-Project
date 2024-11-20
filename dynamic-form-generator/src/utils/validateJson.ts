@@ -1,8 +1,8 @@
-export const validateJson = (json: string): boolean => {
+export default function validateJson(json: string): boolean {
   try {
     JSON.parse(json);
     return true;
   } catch {
     return false;
   }
-};
+}

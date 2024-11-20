@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import JsonEditor from "./components/JsonEditor";
 import FormPreview from "./components/FormPreview";
+import JsonEditor from "./components/JsonEditor";
 
 const App: React.FC = () => {
-  const [jsonSchema, setJsonSchema] = useState("");
+  const [json, setJson] = useState<string>("");
 
   return (
-    <div className="h-screen grid grid-cols-1 md:grid-cols-2">
-      <div className="p-4 border-r">
-        <h1 className="text-2xl font-bold mb-4">JSON Editor</h1>
-        <JsonEditor json={jsonSchema} onChange={setJsonSchema} />
+    <div className="flex flex-col lg:flex-row h-screen">
+      <div className="w-full lg:w-1/2 p-4">
+        <JsonEditor json={json} onChange={setJson} />
       </div>
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Form Preview</h1>
-        <FormPreview json={jsonSchema} />
+      <div className="w-full lg:w-1/2 p-4 bg-gray-100 dark:bg-gray-900">
+        <FormPreview json={json} />
       </div>
     </div>
   );
