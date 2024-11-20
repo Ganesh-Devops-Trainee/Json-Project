@@ -1,47 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactJson from "react-json-view";
 
-interface JsonEditorProps {
-  json: string;
-  onChange: (newJson: string) => void;
-}
-
-const JsonEditor: React.FC<JsonEditorProps> = ({ json, onChange }) => {
+const JsonEditor: React.FC<{ json: string; onChange: (newJson: string) => void }> = ({
+  json,
+  onChange,
+}) => {
   const [error, setError] = useState<string | null>(null);
+  const [parsedJson, setParsedJson] = useState<object | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    onChange(value);
+  useEffect(() => {
+    // Try to parse the JSON safely
     try {
-      JSON.parse(value);
-      setError(null);
+      if (json) {
+        const parsed = JSON.parse(json);
+        setParsedJson(parsed);
+        setError(null); // Reset error if JSON is valid
+      } else {
+        setParsedJson(null); // Reset parsed data if JSON is empty
+      }
     } catch (err) {
-      setError("Invalid JSON");
+      setError("Invalid JSON format. Please correct the syntax.");
+      setParsedJson(null); // Clear parsed data if JSON is invalid
     }
-  };
+  }, [json]);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(json);
-    alert("JSON copied to clipboard!");
+  const handleJsonChange = (newJson: string) => {
+    onChange(newJson); // Pass the updated JSON to the parent component
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">JSON Editor</h2>
-      <textarea
-        className="w-full h-72 p-2 border rounded focus:outline-none focus:ring focus:border-blue-300 dark:bg-gray-800 dark:text-white"
-        value={json}
-        onChange={handleChange}
-        placeholder="Paste your JSON schema here..."
-      />
-      {error && <p className="text-red-500 mt-2">{error}</p>}
-      {/* <button
-        onClick={handleCopy}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-      >
-        Copy JSON
-      </button> */}
-      <ReactJson src={json ? JSON.parse(json) : {}} theme="monokai" />
+    <div className="json-editor-container">
+      <div className="json-editor">
+        <textarea
+          value={json}
+          onChange={(e) => handleJsonChange(e.target.value)}
+          placeholder="Enter JSON here"
+          className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+        />
+      </div>
+
+      {/* Show error message if JSON is invalid */}
+      {error && <div className="text-red-600 mt-2">{error}</div>}
+
+      {/* Show parsed JSON in a formatted way if valid */}
+      {parsedJson && (
+        <ReactJson
+          src={parsedJson}
+          theme="monokai"
+          collapsed={false}
+          enableClipboard={false}
+        />
+      )}
     </div>
   );
 };
