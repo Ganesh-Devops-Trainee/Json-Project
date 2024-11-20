@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ReactJson from "react-json-view";
 
 interface JsonEditorProps {
   json: string;
@@ -41,7 +40,13 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ json, onChange }) => {
       >
         Copy JSON
       </button> */}
-      <ReactJson src={json ? JSON.parse(json) : {}} theme="monokai" />
+      {/* <ReactJson src={json ? JSON.parse(json) : {}} theme="monokai" /> */}
+      <div className="p-4 bg-white dark:bg-gray-800">
+      <h3 className="text-xl font-bold text-gray-900 dark:text-white">JSON Viewer</h3>
+      <pre className="bg-gray-100 dark:bg-gray-700 p-4 text-sm">
+        {json}
+      </pre>
+    </div>
     </div>
   );
 };
