@@ -1,62 +1,61 @@
-import React, { useState } from "react";
-import downloadJson from "../utils/downloadJson";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { FormSchema } from "../types/schema";
+import { downloadJson } from "../utils/downloadJson";
 
-interface FormPreviewProps {
-  json: string;
-}
+const FormPreview: React.FC<{ json: string }> = ({ json }) => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
-  const [formData, setFormData] = useState<any>({});
-  const [submitted, setSubmitted] = useState(false);
+  const schema: FormSchema | null = (() => {
+    try {
+      return JSON.parse(json);
+    } catch {
+      return null;
+    }
+  })();
 
-  let schema;
+  const onSubmit = (data: any) => {
+    console.log("Form Submitted:", data);
+    alert("Form submitted successfully!");
+  };
 
-  try {
-    schema = JSON.parse(json);
-  } catch {
-    return <p className="text-red-500">Invalid JSON</p>;
+  if (!schema) {
+    return <p className="text-gray-900 dark:text-white">Enter a valid JSON to preview the form.</p>;
   }
 
-  const handleChange = (id: string, value: any) => {
-    setFormData((prev: any) => ({ ...prev, [id]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Form Submitted:", formData);
-    setSubmitted(true);
-    downloadJson(formData, "form-submission");
-  };
-
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">{schema?.formTitle || "Form"}</h2>
-      <p className="mb-4">{schema?.formDescription}</p>
-      <form onSubmit={handleSubmit}>
-        {schema?.fields?.map((field: any) => (
-          <div key={field.id} className="mb-4">
-            <label className="block mb-2">{field.label}</label>
-            {field.type === "text" && (
-              <input
-                type="text"
-                placeholder={field.placeholder}
-                className="w-full p-2 border rounded"
-                required={field.required}
-                onChange={(e) => handleChange(field.id, e.target.value)}
-              />
-            )}
-            {/* Add other field types */}
-          </div>
-        ))}
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white">{schema.formTitle}</h2>
+      <p className="text-gray-700 dark:text-gray-300">{schema.formDescription}</p>
+      {schema.fields.map((field) => (
+        <div key={field.id} className="space-y-1">
+          <label className="block text-gray-900 dark:text-white">{field.label}</label>
+          {field.type === "text" && (
+            <input
+              {...register(field.id, { required: field.required })}
+              placeholder={field.placeholder}
+              className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+            />
+          )}
+          {errors[field.id] && <p className="text-red-600">This field is required</p>}
+        </div>
+      ))}
+      <div className="space-x-4">
         <button
           type="submit"
-          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
+          className="bg-blue-500 text-white px-4 py-2 rounded"
         >
           Submit
         </button>
-      </form>
-      {submitted && <p className="mt-4 text-green-500">Form Submitted Successfully!</p>}
-    </div>
+        <button
+          type="button"
+          onClick={() => downloadJson(schema)}
+          className="bg-gray-500 text-white px-4 py-2 rounded"
+        >
+          Download JSON
+        </button>
+      </div>
+    </form>
   );
 };
 
