@@ -2,7 +2,7 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FormSchema } from "../types/schema";
 
-const FormPreview: React.FC<{ json: string }> = ({ json }) => {
+const FormPreview = <{ json: string }> = ({ json }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const parsedSchema: FormSchema | null = (() => {
