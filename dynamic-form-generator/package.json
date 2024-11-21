@@ -7,6 +7,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+    "test:playwright": "playwright test",
+    "test:jest": "jest"
+
   },
   "dependencies": {
     "react": "^18.3.0",
