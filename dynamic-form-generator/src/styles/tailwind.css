@@ -30,3 +30,7 @@ body {
 .text-red-600{
   color:red;
 }
+
+.items-start{
+  align-items: right;
+}
