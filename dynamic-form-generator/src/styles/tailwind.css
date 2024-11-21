@@ -26,3 +26,7 @@ body {
 .text-white {
   background-color:#2d3748; /* Dark gray */
 }
+
+.text-red-600{
+  color:red;
+}
