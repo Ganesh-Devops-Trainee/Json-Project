@@ -11,9 +11,9 @@ const App: React.FC = () => {
     const savedDarkMode = localStorage.getItem("darkMode") === "true";
     setDarkMode(savedDarkMode);
     if (savedDarkMode) {
-      document.documentElement.classList.add("dark"); // Apply dark mode class to <html>
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark"); // Remove dark mode class from <html>
+      document.documentElement.classList.remove("dark");
     }
   }, []);
 
@@ -21,7 +21,7 @@ const App: React.FC = () => {
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => {
       const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode.toString()); // Save preference to localStorage
+      localStorage.setItem("darkMode", newMode.toString());
       if (newMode) {
         document.documentElement.classList.add("dark");
       } else {
