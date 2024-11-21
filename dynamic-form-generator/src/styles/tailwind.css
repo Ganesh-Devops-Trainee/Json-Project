@@ -32,9 +32,8 @@ body {
 }
 
 .items-start{
-  text-align: right;
-  float: right;
-  display: flex;
+  text-align: center;
+  float: center;
 }
 
 .json-editor-container{
