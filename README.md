@@ -15,28 +15,28 @@ A web application that dynamically generates forms based on JSON schema. The app
 
 ## Project Structure
 
-dynamic-form-generator/ 
+dynamic-form-generator/
 ├── public/
-│   └── index.html              # Root HTML file 
-├── src/ 
-│   ├── components/ 
-│   │   ├── JsonEditor.tsx      # Component for the JSON editor 
-│   │   ├── FormPreview.tsx     # Component for real-time form preview 
-│   ├── App.tsx                 # Main app entry point 
-│   ├── index.tsx               # React app bootstrapping 
-│   ├── styles/ 
-│   │   └── tailwind.css        # Tailwind CSS styles 
-│   ├── types/ 
-│   │   └── schema.d.ts         # Type definitions for the JSON schema 
-│   └── utils/ 
-│       ├── validateJson.ts     # Utility for JSON schema validation 
-│       └── downloadJson.ts     # Utility for downloading JSON data 
-├── tailwind.config.js          # Tailwind CSS configuration 
-├── postcss.config.js           # PostCSS configuration for Tailwind 
-├── package.json                # Dependencies and scripts 
-├── tsconfig.json               # TypeScript configuration 
+│   └── index.html              # Root HTML file
+├── src/
+│   ├── components/
+│   │   ├── FormGenerator.tsx   # Component for form generation logic
+│   │   ├── JsonEditor.tsx      # Component for the JSON editor
+│   │   ├── FormPreview.tsx     # Component for real-time form preview
+│   ├── App.tsx                 # Main app entry point
+│   ├── index.tsx               # React app bootstrapping
+│   ├── styles/
+│   │   └── tailwind.css        # Tailwind CSS styles
+│   ├── types/
+│   │   └── schema.d.ts         # Type definitions for the JSON schema
+│   └── utils/
+│       ├── validateJson.ts     # Utility for JSON schema validation
+│       └── downloadJson.ts     # Utility for downloading JSON data
+├── tailwind.config.js          # Tailwind CSS configuration
+├── postcss.config.js           # PostCSS configuration for Tailwind
+├── package.json                # Dependencies and scripts
+├── tsconfig.json               # TypeScript configuration
 └── README.md                   # Documentation
-
 ---
 
 ## Setup Instructions
