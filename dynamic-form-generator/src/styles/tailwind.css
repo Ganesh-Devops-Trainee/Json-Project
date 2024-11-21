@@ -33,8 +33,11 @@ body {
 
 .items-start{
   text-align: right;
+  float: right;
 }
 
 .json-editor-container{
   width: 400px;
+  float: left;
+  text-align: center;
 }
