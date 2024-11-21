@@ -32,14 +32,14 @@ const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
 
   if (!isFormValid) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex justify-center items-start min-h-screen py-4">
         <p className="text-red-600">Invalid JSON schema. Please check the JSON format and fields.</p>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex justify-center items-start min-h-screen py-4">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-lg w-full p-6 bg-white rounded-lg shadow-lg dark:bg-gray-800">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white">{schema.formTitle}</h2>
         <p className="text-gray-700 dark:text-gray-300">{schema.formDescription}</p>
