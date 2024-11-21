@@ -22,13 +22,20 @@ const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
   // Fallback for fields if not defined in schema
   const fields = schema?.fields || [];
 
+  // Flag to disable buttons if schema is invalid
+  const isFormValid = schema && fields.length > 0;
+
   const onSubmit = (data: any) => {
     console.log("Form Submitted:", data);
     alert("Form submitted successfully!");
   };
 
-  if (!schema) {
-    return <p className="text-gray-900 dark:text-white">Enter a valid JSON to preview the form.</p>;
+  if (!isFormValid) {
+    return (
+      <div>
+        <p className="text-red-600">Invalid JSON schema. Please check the JSON format and fields.</p>
+      </div>
+    );
   }
 
   return (
@@ -37,60 +44,57 @@ const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
       <p className="text-gray-700 dark:text-gray-300">{schema.formDescription}</p>
 
       {/* Render form fields dynamically */}
-      {fields.length === 0 ? (
-        <p className="text-red-600">No form fields found. Please check your JSON schema.</p>
-      ) : (
-        fields.map((field) => (
-          <div key={field.id} className="space-y-1">
-            <label className="block text-gray-900 dark:text-white">{field.label}</label>
-            {field.type === "text" && (
-              <input
-                {...register(field.id, { required: field.required })}
-                placeholder={field.placeholder}
-                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
-              />
-            )}
-            {field.type === "email" && (
-              <input
-                {...register(field.id, {
-                  required: field.required,
-                  pattern: field.validation?.pattern,
-                })}
-                placeholder={field.placeholder}
-                type="email"
-                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
-              />
-            )}
-            {field.type === "select" && (
-              <select
-                {...register(field.id, { required: field.required })}
-                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
-              >
-                {field.options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            )}
-            {field.type === "textarea" && (
-              <textarea
-                {...register(field.id, { required: field.required })}
-                placeholder={field.placeholder}
-                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
-              />
-            )}
+      {fields.map((field) => (
+        <div key={field.id} className="space-y-1">
+          <label className="block text-gray-900 dark:text-white">{field.label}</label>
+          {field.type === "text" && (
+            <input
+              {...register(field.id, { required: field.required })}
+              placeholder={field.placeholder}
+              className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+            />
+          )}
+          {field.type === "email" && (
+            <input
+              {...register(field.id, {
+                required: field.required,
+                pattern: field.validation?.pattern,
+              })}
+              placeholder={field.placeholder}
+              type="email"
+              className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+            />
+          )}
+          {field.type === "select" && (
+            <select
+              {...register(field.id, { required: field.required })}
+              className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+            >
+              {field.options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          )}
+          {field.type === "textarea" && (
+            <textarea
+              {...register(field.id, { required: field.required })}
+              placeholder={field.placeholder}
+              className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+            />
+          )}
 
-            {/* Show error message for invalid fields */}
-            {errors[field.id] && <p className="text-red-600">This field is required</p>}
-          </div>
-        ))
-      )}
+          {/* Show error message for invalid fields */}
+          {errors[field.id] && <p className="text-red-600">This field is required</p>}
+        </div>
+      ))}
 
       <div className="space-x-4">
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded"
+          disabled={!isFormValid}
         >
           Submit
         </button>
@@ -98,6 +102,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
           type="button"
           onClick={() => downloadJson(schema)}
           className="bg-gray-500 text-white px-4 py-2 rounded"
+          disabled={!isFormValid}
         >
           Download JSON
         </button>
