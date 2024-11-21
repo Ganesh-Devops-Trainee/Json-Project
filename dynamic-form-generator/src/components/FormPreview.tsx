@@ -68,7 +68,7 @@ const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
               <input
                 {...register(field.id, {
                   required: field.required,
-                  pattern: field.validation?.pattern,
+                  pattern: field.validation?.pattern || /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                 })}
                 placeholder={field.placeholder}
                 type="email"
@@ -89,16 +89,15 @@ const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
               />
             )}
 
-            {/* Number input field */}
-            {field.type === "number" && (
+            {/* Tel input field */}
+            {field.type === "tel" && (
               <input
                 {...register(field.id, {
                   required: field.required,
-                  min: field.validation?.min,
-                  max: field.validation?.max,
+                  pattern: field.validation?.pattern || /^[0-9]{10}$/,
                 })}
                 placeholder={field.placeholder}
-                type="number"
+                type="tel"
                 className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
               />
             )}
@@ -116,30 +115,18 @@ const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
               />
             )}
 
-            {/* Checkbox input field */}
-            {field.type === "checkbox" && (
+            {/* Number input field */}
+            {field.type === "number" && (
               <input
-                {...register(field.id, { required: field.required })}
-                type="checkbox"
-                className="p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+                {...register(field.id, {
+                  required: field.required,
+                  min: field.validation?.min,
+                  max: field.validation?.max,
+                })}
+                placeholder={field.placeholder}
+                type="number"
+                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
               />
-            )}
-
-            {/* Radio input field */}
-            {field.type === "radio" && (
-              <div>
-                {field.options?.map((option) => (
-                  <label key={option.value} className="inline-flex items-center">
-                    <input
-                      {...register(field.id, { required: field.required })}
-                      type="radio"
-                      value={option.value}
-                      className="p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
-                    />
-                    <span className="ml-2">{option.label}</span>
-                  </label>
-                ))}
-              </div>
             )}
 
             {/* Range input field */}
@@ -181,7 +168,160 @@ const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
               />
             )}
 
-            {/* Select field */}
+            {/* Datetime-local input field */}
+            {field.type === "datetime-local" && (
+              <input
+                {...register(field.id, {
+                  required: field.required,
+                  min: field.validation?.min,
+                  max: field.validation?.max,
+                })}
+                type="datetime-local"
+                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+              />
+            )}
+
+            {/* Month input field */}
+            {field.type === "month" && (
+              <input
+                {...register(field.id, {
+                  required: field.required,
+                  min: field.validation?.min,
+                  max: field.validation?.max,
+                })}
+                type="month"
+                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+              />
+            )}
+
+            {/* Week input field */}
+            {field.type === "week" && (
+              <input
+                {...register(field.id, {
+                  required: field.required,
+                  min: field.validation?.min,
+                  max: field.validation?.max,
+                })}
+                type="week"
+                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+              />
+            )}
+
+            {/* Color input field */}
+            {field.type === "color" && (
+              <input
+                {...register(field.id, { required: field.required })}
+                type="color"
+                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+              />
+            )}
+
+            {/* File input field */}
+            {field.type === "file" && (
+              <input
+                {...register(field.id, { required: field.required })}
+                type="file"
+                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+              />
+            )}
+
+            {/* Hidden input field */}
+            {field.type === "hidden" && (
+              <input
+                {...register(field.id, { required: field.required })}
+                type="hidden"
+                value={field.value || ""}
+              />
+            )}
+
+            {/* Checkbox input field */}
+            {field.type === "checkbox" && (
+              <input
+                {...register(field.id, { required: field.required })}
+                type="checkbox"
+                className="p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+              />
+            )}
+
+            {/* Radio input field */}
+            {field.type === "radio" && (
+              <div>
+                {field.options?.map((option) => (
+                  <label key={option.value} className="inline-flex items-center">
+                    <input
+                      {...register(field.id, { required: field.required })}
+                      type="radio"
+                      value={option.value}
+                      className="p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+                    />
+                    <span className="ml-2">{option.label}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+
+            {/* Submit input field */}
+            {field.type === "submit" && (
+              <input
+                type="submit"
+                value={field.label || "Submit"}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              />
+            )}
+
+            {/* Reset input field */}
+            {field.type === "reset" && (
+              <input
+                type="reset"
+                value={field.label || "Reset"}
+                className="bg-gray-500 text-white px-4 py-2 rounded"
+              />
+            )}
+
+            {/* Button input field */}
+            {field.type === "button" && (
+              <button
+                type="button"
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+              >
+                {field.label || "Button"}
+              </button>
+            )}
+
+            {/* Image input field */}
+            {field.type === "image" && (
+              <input
+                type="image"
+                src={field.src || ""}
+                alt={field.alt || "Image"}
+                className="w-full"
+              />
+            )}
+
+            {/* Search input field */}
+            {field.type === "search" && (
+              <input
+                {...register(field.id, { required: field.required })}
+                type="search"
+                placeholder={field.placeholder}
+                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+              />
+            )}
+
+            {/* Textarea input field */}
+            {field.type === "textarea" && (
+              <textarea
+                {...register(field.id, {
+                  required: field.required,
+                  minLength: field.validation?.minLength,
+                  maxLength: field.validation?.maxLength,
+                })}
+                placeholder={field.placeholder}
+                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
+              />
+            )}
+
+            {/* Select input field */}
             {field.type === "select" && (
               <select
                 {...register(field.id, { required: field.required })}
@@ -193,19 +333,6 @@ const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
                   </option>
                 ))}
               </select>
-            )}
-
-            {/* Textarea field */}
-            {field.type === "textarea" && (
-              <textarea
-                {...register(field.id, {
-                  required: field.required,
-                  minLength: field.validation?.minLength,
-                  maxLength: field.validation?.maxLength,
-                })}
-                placeholder={field.placeholder}
-                className="w-full p-2 border rounded bg-gray-100 dark:bg-gray-700 dark:text-white"
-              />
             )}
 
             {/* Show error message for invalid fields */}
