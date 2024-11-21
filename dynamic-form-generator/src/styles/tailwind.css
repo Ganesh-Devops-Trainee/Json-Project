@@ -34,3 +34,7 @@ body {
 .items-start{
   text-align: right;
 }
+
+.json-editor-container{
+  width: 400px;
+}
