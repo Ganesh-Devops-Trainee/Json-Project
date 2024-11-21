@@ -34,7 +34,11 @@ body {
 .items-start{
   text-align: center;
   float: center;
-  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: auto;
 }
 
 .json-editor-container{
