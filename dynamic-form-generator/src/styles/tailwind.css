@@ -32,5 +32,5 @@ body {
 }
 
 .items-start{
-  align-items: center;
+  direction: rtl;
 }
