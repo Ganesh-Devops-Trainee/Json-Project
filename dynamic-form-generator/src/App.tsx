@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FormPreview from "./components/FormPreview";
 import JsonEditor from "./components/JsonEditor";
 
-const App: React.FC = () => {
+const App = () => {
   const [jsonSchema, setJsonSchema] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
