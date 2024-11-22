@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { JsonTree } from "react-json-tree";
+// Import the correct component from react18-json-view
+import ReactJson from "react18-json-view";
 
 interface JsonEditorProps {
   json: string;
@@ -47,10 +48,11 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ json, onChange }) => {
       {/* Display the formatted JSON if valid */}
       {parsedJson && (
         <div className="mt-4">
-          <JsonTree
-            data={parsedJson}
+          <ReactJson
+            src={parsedJson}  // Pass the parsed JSON object
             theme="monokai"
-            invertTheme={false}
+            collapsed={false}
+            enableClipboard={false}
           />
         </div>
       )}
