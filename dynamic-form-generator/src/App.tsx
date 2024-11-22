@@ -4,7 +4,7 @@ import JsonEditor from "./components/JsonEditor";
 
 const App = () => {
   const [jsonSchema, setJsonSchema] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);  // Explicitly type the state as boolean
 
   // Check if there's a saved dark mode preference in localStorage
   useEffect(() => {
@@ -19,7 +19,7 @@ const App = () => {
 
   // Toggle dark mode and save to localStorage
   const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
+    setDarkMode((prevMode: boolean) => {  // Explicitly type 'prevMode' as boolean
       const newMode = !prevMode;
       localStorage.setItem("darkMode", newMode.toString());
       if (newMode) {
