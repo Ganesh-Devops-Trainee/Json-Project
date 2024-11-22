@@ -7,7 +7,7 @@ interface JsonEditorProps {
   onChange: (newJson: string) => void;
 }
 
-const JsonEditor: React.FC<JsonEditorProps> = ({ json, onChange }) => {
+const JsonEditor = ({ json, onChange }: JsonEditorProps) => {
   const [error, setError] = useState<string | null>(null);
   const [parsedJson, setParsedJson] = useState<object | null>(null);
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { FormSchema } from "../types/schema";
 import { downloadJson } from "../utils/downloadJson";
@@ -7,7 +6,7 @@ interface FormPreviewProps {
   json: string;
 }
 
-const FormPreview: React.FC<FormPreviewProps> = ({ json }) => {
+const FormPreview = ({ json }: FormPreviewProps) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   // Attempt to parse the JSON schema
