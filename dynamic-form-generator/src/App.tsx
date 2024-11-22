@@ -3,8 +3,11 @@ import FormPreview from "./components/FormPreview";
 import JsonEditor from "./components/JsonEditor";
 
 const App = () => {
-  const [jsonSchema, setJsonSchema] = useState(""); // Type inferred as string by default
-  const [darkMode, setDarkMode] = useState(false);  // Type inferred as boolean
+  // Explicitly type the state as string for jsonSchema
+  const [jsonSchema, setJsonSchema] = useState<string>("");
+
+  // Explicitly type the state as boolean for darkMode
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   // Check if there's a saved dark mode preference in localStorage
   useEffect(() => {
@@ -19,7 +22,7 @@ const App = () => {
 
   // Toggle dark mode and save to localStorage
   const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
+    setDarkMode((prevMode: boolean) => {
       const newMode = !prevMode;
       localStorage.setItem("darkMode", newMode.toString());
       if (newMode) {
